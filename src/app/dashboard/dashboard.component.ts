@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ICountries } from '../Countries'
+import {HttpClient} from '@angular/common/http';
+import {MyService} from '../services/countries-services.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +21,9 @@ export class DashboardComponent implements OnInit {
     RecoveredTitle = 'Recovered';
     RecoveredNb  = 41485124;
 
+    posts: any;
+
+
     countries: Array<ICountries> = [
         {id: 1, name: 'France', sick: 200},
         {id: 2, name: 'Espagne', sick: 200},
@@ -27,8 +33,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-
-    constructor() { }
+    constructor(private myService: MyService) {}
   startAnimationForLineChart(chart) {
       let seq: any, delays: any, durations: any;
       seq = 0;
@@ -86,12 +91,12 @@ export class DashboardComponent implements OnInit {
       seq2 = 0;
   };
   ngOnInit() {
+     this.myService.getItems('https://api.covid19api.com/summary');
       /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
-      const Title = 'Test';
       const dataDailySalesChart: any = {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
           series: [
-              [12, 17, 7, 17, 23, 18, 38]
+              [8, 17, 7, 17, 23, 18, 38, 23, 43, 21, 60, 102]
           ]
       };
 
@@ -100,7 +105,7 @@ export class DashboardComponent implements OnInit {
               tension: 0
           }),
           low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          high: 102, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
       }
 
