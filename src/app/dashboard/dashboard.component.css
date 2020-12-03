@@ -1,0 +1,17 @@
+.healed {
+    height: 15px;
+    background-color: #8dd36d;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+  }
+  .dead {
+    height: 15px;
+    background-color: #d45151;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+  }
+  .ongoing {
+    height: 15px;
+    background-color: #fdce4b;
+    background: repeating-linear-gradient(45deg, #f7bc1d,#f7bc1d 10px,#fdce4b 10px,#fdce4b 20px);
+  }
