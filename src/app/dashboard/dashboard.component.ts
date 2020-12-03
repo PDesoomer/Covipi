@@ -7,7 +7,8 @@ import * as Chartist from 'chartist';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+    CasesTitle = "Cases";
+    CasesNb = 12;
   constructor() { }
   startAnimationForLineChart(chart){
       let seq: any, delays: any, durations: any;
@@ -67,7 +68,7 @@ export class DashboardComponent implements OnInit {
   };
   ngOnInit() {
       /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
-
+      const Title = 'Test';
       const dataDailySalesChart: any = {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           series: [
