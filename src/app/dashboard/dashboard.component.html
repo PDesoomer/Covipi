@@ -8,7 +8,7 @@
                             <i class="material-icons">coronavirus</i>
                         </div>
                         <p class="card-category">{{ConfirmedTitle}}</p>
-                        <h3 class="card-title">{{ConfirmedNb}}</h3>
+                        <h3 class="card-title">{{numberWithCommas(ConfirmedNb)}}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -24,7 +24,7 @@
                             <i class="material-icons">cancel</i>
                         </div>
                         <p class="card-category">{{DeathTitle}}</p>
-                        <h3 class="card-title">{{DeathNb}}</h3>
+                        <h3 class="card-title">{{numberWithCommas(DeathNb)}}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -40,7 +40,7 @@
                             <i class="material-icons">masks</i>
                         </div>
                         <p class="card-category">{{RecoveredTitle}}</p>
-                        <h3 class="card-title">{{RecoveredNb}}</h3>
+                        <h3 class="card-title">{{numberWithCommas(RecoveredNb)}}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -99,7 +99,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card card-chart">
-                    <div class="card-header card-header-warning">
+                    <div class="card-header card-header-info">
                         <div class="ct-chart" id="websiteViewsChart"></div>
                     </div>
                     <div class="card-body">
@@ -120,7 +120,7 @@
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">Deaths</h4>
-                        <p class="card-category">Last Campaign Performance</p>
+                        <p class="card-category">WorldWide</p>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -434,7 +434,7 @@
                                 <th>Cases</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let country of countries | slice:0:5">
+                                <tr *ngFor="let country of countries | slice:0:100">
                                     <td>{{country.id}}</td>
                                     <td>{{country.name}}</td>
                                     <td>{{country.sick}}</td>

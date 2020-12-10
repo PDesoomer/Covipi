@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ICountries } from '../Countries'
+import { IReqCountries } from '../ReqCountries'
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -8,28 +11,76 @@ import { ICountries } from '../Countries'
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+
   ConfirmedTitle = 'Confirmed Case';
-  ConfirmedNb = 64498634;
+  ConfirmedNb = 100;
+
 
   DeathTitle = 'Deaths';
-  DeathNb = 1492893;
+  DeathNb = 1;
 
 
   RecoveredTitle = 'Recovered';
-  RecoveredNb = 41485124;
+  RecoveredNb = 50;
 
-  
+
+  reqCountries: Array<IReqCountries> = [];
+
   countries: Array<ICountries> = [
     { id: 1, name: 'France', sick: 200 },
     { id: 2, name: 'Espagne', sick: 200 },
     { id: 3, name: 'Chili', sick: 200 },
     { id: 4, name: 'Guatemala', sick: 200 },
+    { id: 4, name: 'Guatemala', sick: 200 },
+    { id: 4, name: 'Guatemala', sick: 200 },
+    { id: 4, name: 'Guatemala', sick: 200 },
+    { id: 4, name: 'Guatemala', sick: 200 },
+    { id: 4, name: 'Guatemala', sick: 200 },
   ];
 
+  summary: JSON;
+
+  constructor(http: HttpClient) {
+    //getting total numbers
+    http.get<JSON>('https://api.covid19api.com/world/total').subscribe((response: JSON) => {this.summary = response;
+      /*
+      this.ConfirmedNb = (response['TotalConfirmed']),
+        this.DeathNb = (response['TotalDeaths']),
+        this.RecoveredNb = (response['TotalRecovered'])
+        */
+    });
+
+    console.log(this.summary);
+    
+
+    //getting all countries
+    http.get<JSON>('https://api.covid19api.com/countries').subscribe((response: JSON) => {
+      for (var country in response) {        
+        console.log(country);
+        console.log(response[country]);
+        //var temp: IReqCountries = {name: response[country]['Country'], iso: country[country]['ISO2'], slug: country[country]['Slug']}
+        //console.log(temp);
+        
+        //this.reqCountries.push(temp)
+      }
+      console.log(this.reqCountries);
+      
+    });
 
 
 
-  constructor() { }
+  }
+
+  numberWithCommas(x) {
+    x = x.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x))
+      x = x.replace(pattern, "$1 $2");
+    return x;
+  }
+
+
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
     seq = 0;
@@ -125,7 +176,7 @@ export class DashboardComponent implements OnInit {
       }),
       low: 0,
       high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
+      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
     }
 
     let deadChart = new Chartist.Line('#completedTasksChart', dataDeadChart, optionsDeadChart);
@@ -138,18 +189,22 @@ export class DashboardComponent implements OnInit {
     /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
     let datawebsiteViewsChart = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      labels: ['Recovered', 'Unknown', 'Deaths'],
       series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
+        [
+          this.RecoveredNb / this.ConfirmedNb * 100,
+          (this.ConfirmedNb - (this.DeathNb + this.RecoveredNb)) / this.ConfirmedNb * 100,
+          this.DeathNb / this.ConfirmedNb * 100
+        ]
       ]
     };
+
     let optionswebsiteViewsChart = {
       axisX: {
         showGrid: false
       },
       low: 0,
-      high: 1000,
+      high: 101,
       chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
     };
     let responsiveOptions: any[] = [
