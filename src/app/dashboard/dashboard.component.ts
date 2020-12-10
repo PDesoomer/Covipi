@@ -43,32 +43,42 @@ export class DashboardComponent implements OnInit {
 
   constructor(http: HttpClient) {
     //getting total numbers
-    http.get<JSON>('https://api.covid19api.com/world/total').subscribe((response: JSON) => {this.summary = response;
-      /*
-      this.ConfirmedNb = (response['TotalConfirmed']),
-        this.DeathNb = (response['TotalDeaths']),
-        this.RecoveredNb = (response['TotalRecovered'])
-        */
+    http.get<JSON>('https://api.covid19api.com/world/total').subscribe((response: JSON) => {
+      this.summary = response;
     });
 
     console.log(this.summary);
-    
+
+
+    /*
+        this.ConfirmedNb = (response['TotalConfirmed']),
+          this.DeathNb = (response['TotalDeaths']),
+          this.RecoveredNb = (response['TotalRecovered'])
+      });
+      */
 
     //getting all countries
     http.get<JSON>('https://api.covid19api.com/countries').subscribe((response: JSON) => {
-      for (var country in response) {        
-        console.log(country);
-        console.log(response[country]);
-        //var temp: IReqCountries = {name: response[country]['Country'], iso: country[country]['ISO2'], slug: country[country]['Slug']}
-        //console.log(temp);
-        
-        //this.reqCountries.push(temp)
+      for (var country in response) {
+        this.reqCountries.push({ name: response[country]["Country"], slug: response[country]["Slug"], iso: response[country]["ISO2"] });
       }
-      console.log(this.reqCountries);
-      
+      for (var country in this.reqCountries) {
+        this.countries.push()
+      }
+
     });
 
+    console.log(this.reqCountries);
 
+
+
+    for (var i = 0; i < this.reqCountries.length; i++) {
+      console.log(this.reqCountries[i]);
+
+      http.get<JSON>('https://api.covid19api.com/' + i[0] + '/total').subscribe((response: JSON) => {
+        console.log(response);
+      });
+    }
 
   }
 
