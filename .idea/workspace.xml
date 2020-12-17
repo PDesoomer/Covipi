@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="598b9717-935e-488d-8676-f8102cef83d6" name="Default Changelist" comment="">
+    <list default="true" id="3ea1315d-04f6-4901-93cb-d130404489b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/simple-snack-bar.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/simple-snack-bar.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/snack-bar-container.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/snack-bar-container.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/snack-bar-module.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/snack-bar-module.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/snack-bar.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@angular/material/snack-bar/snack-bar.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/icons/icons.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/icons/icons.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/icons/icons.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/icons/icons.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layouts/admin-layout/admin-layout.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layouts/admin-layout/admin-layout.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layouts/admin-layout/admin-layout.routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layouts/admin-layout/admin-layout.routing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/notifications/notifications.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/notifications/notifications.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/notifications/notifications.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/notifications/notifications.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/typography/typography.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/typography/typography.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/typography/typography.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/typography/typography.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/upgrade/upgrade.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/upgrade/upgrade.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/upgrade/upgrade.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/upgrade/upgrade.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/user-profile/user-profile.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/user-profile/user-profile.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/user-profile/user-profile.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/user-profile/user-profile.component.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +39,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1l8lIDRnsDRhLcljcS7DVceq5dL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
