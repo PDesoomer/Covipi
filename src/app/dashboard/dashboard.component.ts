@@ -3,6 +3,7 @@ import * as Chartist from 'chartist';
 import { ICountries } from '../Countries'
 import {HttpClient} from '@angular/common/http';
 import {MyService} from '../services/countries-services.service';
+import { config } from 'process';
 
 
 @Component({
@@ -12,15 +13,19 @@ import {MyService} from '../services/countries-services.service';
 })
 export class DashboardComponent implements OnInit {
     ConfirmedTitle = 'Confirmed Case';
-    ConfirmedNb = 64498634;
+    ConfirmedNb = 0;
     dataReceivedFromHttp : any;
 
     DeathTitle = 'Deaths';
-    DeathNb = 1492893;
+    DeathNb = 0;
 
 
     RecoveredTitle = 'Recovered';
-    RecoveredNb  = 41485124;
+    RecoveredNb  = 0;
+
+
+    yearRecovered = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    maxRecovered = 0;
 
     posts: any;
 
@@ -94,12 +99,38 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
       this.myService.getGlobalInfo().subscribe(data => {
           this.dataReceivedFromHttp = data;
+          
+          this.ConfirmedNb = data["TotalConfirmed"];          
+          this.DeathNb = data["TotalDeaths"];
+          this.RecoveredNb = data["TotalRecovered"];          
       });
+
+      this.myService.get12LastMonths().subscribe(data2 => {
+
+        let year = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let max = 0;
+
+        for (let index = 0; index < data2.length; index++) {
+             year[Math.floor(index / 30)] += data2[index]["NewRecovered"] / 1000000;
+        }
+
+        //this.maxRecovered = Math.max(year);        
+
+        this.yearRecovered = year;
+        console.debug(this.yearRecovered[1]);
+        console.log(Math.floor(this.yearRecovered[1]));
+        console.log(typeof this.yearRecovered);
+        console.log("Hello");
+        
+        //console.log(data);
+        
+                
+    });
       /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
       const dataDailySalesChart: any = {
-          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          labels: ['J'],
           series: [
-              [8, 17, 7, 17, 23, 18, 38, 23, 43, 21, 60, 102]
+            [this.yearRecovered[1]]
           ]
       };
 
@@ -108,7 +139,7 @@ export class DashboardComponent implements OnInit {
               tension: 0
           }),
           low: 0,
-          high: 102, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          high: 15, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
       }
 
@@ -145,9 +176,9 @@ export class DashboardComponent implements OnInit {
       /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
       let datawebsiteViewsChart = {
-        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+        labels: ['Recovered', 'Unknown', 'Dead'],
         series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
+          [this.RecoveredNb / this.ConfirmedNb * 100, (this.ConfirmedNb - (this.RecoveredNb + this.DeathNb))  / this.ConfirmedNb * 100, this.DeathNb / this.ConfirmedNb * 100]
 
         ]
       };
@@ -156,7 +187,7 @@ export class DashboardComponent implements OnInit {
               showGrid: false
           },
           low: 0,
-          high: 1000,
+          high: 101,
           chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
       };
       let responsiveOptions: any[] = [
