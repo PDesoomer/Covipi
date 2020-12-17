@@ -379,8 +379,11 @@
                               <th>Cases</th>
                           </thead>
                           <tbody>
-                              <tr *ngFor="let country of countries | slice:0:5">
-                                  <td>{{country.id}}</td>
+
+                              <tr (click)="selectCountry(country)"
+                                  [class.selected]="selectedCountry === country"
+                                  *ngFor="let country of countries | slice:0:5">
+                                  <td >{{country.id}}</td>
                                   <td>{{country.name}}</td>
                                   <td>{{country.sick}}</td>
                               </tr>

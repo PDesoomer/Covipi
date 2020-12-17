@@ -3,6 +3,7 @@ import * as Chartist from 'chartist';
 import { ICountries } from '../Countries'
 import {HttpClient} from '@angular/common/http';
 import {MyService} from '../services/countries-services.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -14,6 +15,8 @@ export class DashboardComponent implements OnInit {
     ConfirmedTitle = 'Confirmed Case';
     ConfirmedNb = 64498634;
     dataReceivedFromHttp : any;
+
+    selectedCountry : ICountries;
 
     DeathTitle = 'Deaths';
     DeathNb = 1492893;
@@ -33,7 +36,7 @@ export class DashboardComponent implements OnInit {
     ];
 
 
-    constructor(private myService: MyService) {}
+    constructor(private myService: MyService, public snackBar: MatSnackBar) {}
   startAnimationForLineChart(chart) {
       let seq: any, delays: any, durations: any;
       seq = 0;
@@ -175,4 +178,10 @@ export class DashboardComponent implements OnInit {
       this.startAnimationForBarChart(websiteViewsChart);
   }
 
+    selectCountry(country: ICountries) {
+        this.selectedCountry = country;
+        this.snackBar.open(this.selectedCountry.name + ' | Cases confirmed : ' + this.selectedCountry.sick , 'Close', {
+            duration: 5000
+        });
+    }
 }
