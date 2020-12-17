@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ICountries } from '../Countries'
-import { IReqCountries } from '../ReqCountries'
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { MyService } from '../services/countries-services.service';
 
 
 @Component({
@@ -11,74 +11,29 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  dataReceivedFromHttp: any;
 
 
-  ConfirmedTitle = 'Confirmed Case';
+  ConfirmedTitle = 'Confirmed Cases';
   ConfirmedNb = 100;
-
-
-  DeathTitle = 'Deaths';
-  DeathNb = 1;
-
-
+  DeathTitle = 'Confirmed Deaths';
+  DeathNb = 100;
   RecoveredTitle = 'Recovered';
-  RecoveredNb = 50;
+  RecoveredNb = 100;
 
 
-  reqCountries: Array<IReqCountries> = [];
+  posts: any;
+
 
   countries: Array<ICountries> = [
     { id: 1, name: 'France', sick: 200 },
     { id: 2, name: 'Espagne', sick: 200 },
     { id: 3, name: 'Chili', sick: 200 },
     { id: 4, name: 'Guatemala', sick: 200 },
-    { id: 4, name: 'Guatemala', sick: 200 },
-    { id: 4, name: 'Guatemala', sick: 200 },
-    { id: 4, name: 'Guatemala', sick: 200 },
-    { id: 4, name: 'Guatemala', sick: 200 },
-    { id: 4, name: 'Guatemala', sick: 200 },
   ];
 
-  summary: JSON;
 
-  constructor(http: HttpClient) {
-    //getting total numbers
-    http.get<JSON>('https://api.covid19api.com/world/total').subscribe((response: JSON) => {
-      this.summary = response;
-    });
-
-    console.log(this.summary);
-
-
-    /*
-        this.ConfirmedNb = (response['TotalConfirmed']),
-          this.DeathNb = (response['TotalDeaths']),
-          this.RecoveredNb = (response['TotalRecovered'])
-      });
-      */
-
-    //getting all countries
-    http.get<JSON>('https://api.covid19api.com/countries').subscribe((response: JSON) => {
-      for (var country in response) {
-        this.reqCountries.push({ name: response[country]["Country"], slug: response[country]["Slug"], iso: response[country]["ISO2"] });
-      }
-      for (var country in this.reqCountries) {
-        this.countries.push()
-      }
-
-    });
-
-    console.log(this.reqCountries);
-
-
-
-    for (var i = 0; i < this.reqCountries.length; i++) {
-      console.log(this.reqCountries[i]);
-
-      http.get<JSON>('https://api.covid19api.com/' + i[0] + '/total').subscribe((response: JSON) => {
-        console.log(response);
-      });
-    }
+  constructor(private myService: MyService) { 
 
   }
 
@@ -150,6 +105,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
     const Title = 'Test';
+
+
+    console.log(this.dataReceivedFromHttp);
+    
+
+
     const dataHealedChart: any = {
       labels: ['day 1', 'T', 'W', 'T', 'F', 'S', 'Today'],
       series: [
