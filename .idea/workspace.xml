@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="598b9717-935e-488d-8676-f8102cef83d6" name="Default Changelist" comment="" />
+    <list default="true" id="598b9717-935e-488d-8676-f8102cef83d6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/countries-services.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/countries-services.service.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,6 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1606986516514</updated>
       <workItem from="1606986517544" duration="13376000" />
+      <workItem from="1608215930450" duration="469000" />
     </task>
     <servers />
   </component>
@@ -71,13 +76,21 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="694" y="303" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1607616132172">
+      <screen x="0" y="29" width="1920" height="1051" />
+    </state>
+    <state x="694" y="303" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.29.1920.1051@0.29.1920.1051" timestamp="1607616132172" />
     <state x="744" y="312" key="FileChooserDialogImpl" timestamp="1607002060445">
       <screen x="0" y="29" width="1920" height="1051" />
     </state>
     <state x="744" y="312" key="FileChooserDialogImpl/0.29.1920.1051@0.29.1920.1051" timestamp="1607002060445" />
-    <state x="620" y="254" key="run.anything.popup" timestamp="1607006609619">
+    <state x="665" y="251" width="590" height="612" key="find.popup" timestamp="1607616195469">
       <screen x="0" y="29" width="1920" height="1051" />
     </state>
-    <state x="620" y="254" key="run.anything.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1607006609619" />
+    <state x="665" y="251" width="590" height="612" key="find.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1607616195469" />
+    <state x="620" y="254" key="run.anything.popup" timestamp="1607617116920">
+      <screen x="0" y="29" width="1920" height="1051" />
+    </state>
+    <state x="620" y="254" key="run.anything.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1607617116920" />
   </component>
 </project>

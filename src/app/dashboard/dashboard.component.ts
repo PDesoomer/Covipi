@@ -13,6 +13,7 @@ import {MyService} from '../services/countries-services.service';
 export class DashboardComponent implements OnInit {
     ConfirmedTitle = 'Confirmed Case';
     ConfirmedNb = 64498634;
+    dataReceivedFromHttp : any;
 
     DeathTitle = 'Deaths';
     DeathNb = 1492893;
@@ -30,7 +31,6 @@ export class DashboardComponent implements OnInit {
         {id: 3, name: 'Chili', sick: 200},
         {id: 4, name: 'Guatemala', sick: 200},
     ];
-
 
 
     constructor(private myService: MyService) {}
@@ -90,8 +90,11 @@ export class DashboardComponent implements OnInit {
 
       seq2 = 0;
   };
+
   ngOnInit() {
-     this.myService.getItems('https://api.covid19api.com/summary');
+      this.myService.getGlobalInfo().subscribe(data => {
+          this.dataReceivedFromHttp = data;
+      });
       /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
       const dataDailySalesChart: any = {
           labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],

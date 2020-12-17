@@ -17,7 +17,7 @@ const httpOptions = {
 export class MyService {
     constructor(private http: HttpClient) { }
 
-    getItems(url: string) {
-        this.http.get(url).subscribe((data) => {console.log(data.Global.TotalConfirmed)});
+    getGlobalInfo() {
+        return this.http.get('https://api.covid19api.com/world/total');
     }
 }
