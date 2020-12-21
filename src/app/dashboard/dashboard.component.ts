@@ -13,30 +13,33 @@ import { config } from 'process';
 })
 export class DashboardComponent implements OnInit {
   ConfirmedTitle = 'Confirmed Case';
-  ConfirmedNb = 10;
+  ConfirmedNb = -1;
   ConfirmedStr = String(this.ConfirmedNb)
 
   dataReceivedFromHttp: any;
 
   DeathTitle = 'Deaths';
-  DeathNb = 1;
+  DeathNb = -1;
   DeathStr = String(this.DeathNb)
-  DeathInc = -55;
-  DeathIncStr = String(this.DeathInc) + ' %';
 
 
   RecoveredTitle = 'Recovered';
-  RecoveredNb = 7;
+  RecoveredNb = -1;
   RecoveredStr = String(this.RecoveredNb)
-  RecoveredInc = +55;
+
+
+  yearRecovered = [1, 20, 300, 400, 500, 600, 7000, 8000, 9000, 10000, 11500, 16000]
+  yearDeaths = [1, 2, 30, 47, 58, 60, 75, 79, 80, 90, 169, 200]
+
+  RecoveredInc = Math.round((this.yearRecovered[new Date().getMonth()] - this.yearRecovered[new Date().getMonth() - 1]) / this.yearRecovered[new Date().getMonth() - 1] * 100);
   RecoveredIncStr = String(this.RecoveredInc) + '%';
 
-
-  yearRecovered = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  yearDeaths =    [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-  maxRecovered = 0;
+  DeathInc = Math.round((this.yearDeaths[new Date().getMonth()] - this.yearDeaths[new Date().getMonth() - 1]) / this.yearDeaths[new Date().getMonth() - 1] * 100);
+  DeathIncStr = String(this.DeathInc) + ' %';
 
   posts: any;
+
+  disp_months = ['Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan'];
 
 
   countries: Array<ICountries> = [
@@ -119,30 +122,43 @@ export class DashboardComponent implements OnInit {
 
     this.myService.get12LastMonths().subscribe(data2 => {
 
-      let year = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      let max = 0;
+      let today = new Date();
+      let month: any = today.getMonth() + 1;
 
-      this.yearRecovered = year;
-      let data = data2;
-      /*
-      for (let index = 0; index < data2; index++) {
-        year[Math.floor(index / 30)] += data2[index]["NewRecovered"] / 1000000;
+      let classicYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      let disp_months = []
+
+      for (let index = 0; index < 12; index++) {
+        //to go leap to prev year
+        if (month > 11) {
+          month = 0;
+        }
+        disp_months.push(classicYear[month])
+        month += 1;
       }
-      */
-      
-      
-      
 
-      //this.maxRecovered = Math.max(year);        
 
-      console.log("inside of get12months()");
+      let yearR = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      let yearD = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-      //console.log(data);
 
+      for (let index = 0; index < Object.keys(data2).length; index++) {
+        yearR[Math.floor(index / 30)] += data2[index]["NewRecovered"];// / 1000000;
+        yearD[Math.floor(index / 30)] += data2[index]["NewDeaths"];// / 1000000;
+      }
+
+
+
+
+      //let year = [data[0]["NewRecovered"], data[1]["NewRecovered"], data[2]["NewRecovered"], data[3]["NewRecovered"], data[4]["NewRecovered"], data[5]["NewRecovered"], data[6]["NewRecovered"], data[7]["NewRecovered"], data[8]["NewRecovered"], data[9]["NewRecovered"], data[10]["NewRecovered"], data[11]["NewRecovered"]]
+      this.yearRecovered = yearR.reverse();
+      this.yearDeaths = yearD.reverse();
+      this.disp_months = disp_months;
+      console.log(this.yearRecovered);
+      console.log(this.yearDeaths);
+      console.log(disp_months);
 
     });
-
-    console.log('hello');
 
 
     function numberWithCommas(x) {
@@ -154,7 +170,7 @@ export class DashboardComponent implements OnInit {
 
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
     const dataDailySalesChart: any = {
-      labels: ['J', 'F', 'M', 'A', 'M' ,'J' ,'J', 'A', 'S','O', 'N', 'D'],
+      labels: this.disp_months,
       series: [
         this.yearRecovered
       ]
@@ -165,7 +181,7 @@ export class DashboardComponent implements OnInit {
         tension: 0
       }),
       low: 0,
-      high: Math.max.apply(null, this.yearRecovered)+1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      high: Math.max.apply(null, this.yearRecovered) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
       chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
     }
 
@@ -177,7 +193,7 @@ export class DashboardComponent implements OnInit {
     /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
 
     const dataCompletedTasksChart: any = {
-      labels: ['J', 'F', 'M', 'A', 'M' ,'J' ,'J', 'A', 'S','O', 'N', 'D'],
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       series: [
         this.yearDeaths
       ]
@@ -188,8 +204,8 @@ export class DashboardComponent implements OnInit {
         tension: 0
       }),
       low: 0,
-      high: Math.max.apply(null, this.yearDeaths)+1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
+      high: Math.max.apply(null, this.yearDeaths) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
     }
 
     let completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
