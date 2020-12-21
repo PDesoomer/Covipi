@@ -38,7 +38,7 @@
                                   </th>
                               </thead>
                               <tbody>
-                              <tr *ngFor="let country of countries | slice:0:5 |  orderBy: order:reverse">
+                              <tr *ngFor="let country of countries |  orderBy: order:reverse">
                                   <td >{{country.id}}</td>
                                   <td>{{country.name}}</td>
                                   <td>{{country.sick}}</td>
