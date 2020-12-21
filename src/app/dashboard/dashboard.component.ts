@@ -13,22 +13,27 @@ import { config } from 'process';
 })
 export class DashboardComponent implements OnInit {
   ConfirmedTitle = 'Confirmed Case';
-  ConfirmedNb = 0;
-  ConfirmedStr = ""
+  ConfirmedNb = 10;
+  ConfirmedStr = String(this.ConfirmedNb)
 
   dataReceivedFromHttp: any;
 
   DeathTitle = 'Deaths';
-  DeathNb = 0;
-  DeathStr = ""
+  DeathNb = 1;
+  DeathStr = String(this.DeathNb)
+  DeathInc = -55;
+  DeathIncStr = String(this.DeathInc) + ' %';
 
 
   RecoveredTitle = 'Recovered';
-  RecoveredNb = 0;
-  RecoveredStr = ""
+  RecoveredNb = 7;
+  RecoveredStr = String(this.RecoveredNb)
+  RecoveredInc = +55;
+  RecoveredIncStr = String(this.RecoveredInc) + '%';
 
 
-  yearRecovered = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+  yearRecovered = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  yearDeaths =    [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
   maxRecovered = 0;
 
   posts: any;
@@ -117,22 +122,27 @@ export class DashboardComponent implements OnInit {
       let year = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       let max = 0;
 
-      for (let index = 0; index < data2.length; index++) {
+      this.yearRecovered = year;
+      let data = data2;
+      /*
+      for (let index = 0; index < data2; index++) {
         year[Math.floor(index / 30)] += data2[index]["NewRecovered"] / 1000000;
       }
+      */
+      
+      
+      
 
       //this.maxRecovered = Math.max(year);        
 
-      this.yearRecovered = year;
-      console.debug(this.yearRecovered[1]);
-      console.log(Math.floor(this.yearRecovered[1]));
-      console.log(typeof this.yearRecovered);
-      console.log("Hello");
+      console.log("inside of get12months()");
 
       //console.log(data);
 
 
     });
+
+    console.log('hello');
 
 
     function numberWithCommas(x) {
@@ -141,11 +151,12 @@ export class DashboardComponent implements OnInit {
       return parts.join(".");
     }
 
+
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
     const dataDailySalesChart: any = {
-      labels: ['J'],
+      labels: ['J', 'F', 'M', 'A', 'M' ,'J' ,'J', 'A', 'S','O', 'N', 'D'],
       series: [
-        [this.yearRecovered[1]]
+        this.yearRecovered
       ]
     };
 
@@ -154,7 +165,7 @@ export class DashboardComponent implements OnInit {
         tension: 0
       }),
       low: 0,
-      high: 15, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      high: Math.max.apply(null, this.yearRecovered)+1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
       chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
     }
 
@@ -166,9 +177,9 @@ export class DashboardComponent implements OnInit {
     /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
 
     const dataCompletedTasksChart: any = {
-      labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
+      labels: ['J', 'F', 'M', 'A', 'M' ,'J' ,'J', 'A', 'S','O', 'N', 'D'],
       series: [
-        [230, 750, 450, 300, 280, 240, 200, 190]
+        this.yearDeaths
       ]
     };
 
@@ -177,7 +188,7 @@ export class DashboardComponent implements OnInit {
         tension: 0
       }),
       low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      high: Math.max.apply(null, this.yearDeaths)+1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
       chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
     }
 
@@ -191,7 +202,7 @@ export class DashboardComponent implements OnInit {
     /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
     let datawebsiteViewsChart = {
-      labels: ['Recovered', 'Unknown', 'Dead'],
+      labels: ['Healed', 'Ongoing', 'Deaths'],
       series: [
         [this.RecoveredNb / this.ConfirmedNb * 100, (this.ConfirmedNb - (this.RecoveredNb + this.DeathNb)) / this.ConfirmedNb * 100, this.DeathNb / this.ConfirmedNb * 100]
 
@@ -203,11 +214,11 @@ export class DashboardComponent implements OnInit {
       },
       low: 0,
       high: 101,
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
+      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
     };
     let responsiveOptions: any[] = [
       ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
+        seriesBarDistance: 10,
         axisX: {
           labelInterpolationFnc: function (value) {
             return value[0];

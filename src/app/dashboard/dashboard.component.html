@@ -3,6 +3,23 @@
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">masks</i>
+                        </div>
+                        <p class="card-category">{{RecoveredTitle}}</p>
+                        <h3 class="card-title">{{RecoveredStr}}</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Last 24 Hours
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
                     <div class="card-header card-header-warning card-header-icon">
                         <div class="card-icon">
                             <i class="material-icons">coronavirus</i>
@@ -18,22 +35,6 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-success card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">masks</i>
-                        </div>
-                        <p class="card-category">{{RecoveredTitle}}</p>
-                        <h3 class="card-title">{{RecoveredStr}}</h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">date_range</i> Last 24 Hours
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-danger card-header-icon">
@@ -59,9 +60,9 @@
                         <div class="ct-chart" id="dailySalesChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Daily Sales</h4>
+                        <h4 class="card-title">Recovered Cases</h4>
                         <p class="card-category">
-                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.
+                            <span class="text text-success"> {{RecoveredIncStr}} </span> Recovering since last month.
                         </p>
                     </div>
                     <div class="card-footer">
@@ -77,8 +78,8 @@
                         <div class="ct-chart" id="websiteViewsChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Email Subscriptions</h4>
-                        <p class="card-category">Last Campaign Performance</p>
+                        <h4 class="card-title">Cases Ratio in %</h4>
+                        <p class="card-category">To put the numbers in perspective</p>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -95,7 +96,9 @@
 
                     <div class="card-body">
                         <h4 class="card-title">Completed Tasks</h4>
-                        <p class="card-category">Last Campaign Performance</p>
+                        <p class="card-category">
+                            <span class="text text-danger"> {{DeathIncStr}} </span> Death since last month.
+                        </p>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
