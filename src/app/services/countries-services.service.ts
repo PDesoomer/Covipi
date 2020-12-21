@@ -30,9 +30,12 @@ export class MyService {
         let last:String = year-1 + '-' + month + '-' + day;
         let now:String = year + '-' + month + '-' + day;        
 
-        console.log('https://api.covid19api.com/world?from=' + last + 'T00:00:00Z&to=' + now + 'T00:00:00Z');
         
         //return this.http.get('https://api.covid19api.com/live/country/south-africa/status/confirmed/date/2020-03-21T13:13:30Z');
         return this.http.get('https://api.covid19api.com/world?from=' + last + 'T00:00:00Z&to=' + now + 'T00:00:00Z');
+    }
+
+    getAllCountries() {
+        return this.http.get('https://api.covid19api.com/summary');
     }
 }

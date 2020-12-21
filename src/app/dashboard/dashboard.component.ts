@@ -31,11 +31,11 @@ export class DashboardComponent implements OnInit {
   yearRecovered = [1, 20, 300, 400, 500, 600, 7000, 8000, 9000, 10000, 11500, 16000]
   yearDeaths = [1, 2, 30, 47, 58, 60, 75, 79, 80, 90, 169, 200]
 
-  RecoveredInc = Math.round((this.yearRecovered[new Date().getMonth()] - this.yearRecovered[new Date().getMonth() - 1]) / this.yearRecovered[new Date().getMonth() - 1] * 100);
-  RecoveredIncStr = String(this.RecoveredInc) + '%';
+  RecoveredInc = 0;
+  RecoveredIncStr = 0 + '%';
 
-  DeathInc = Math.round((this.yearDeaths[new Date().getMonth()] - this.yearDeaths[new Date().getMonth() - 1]) / this.yearDeaths[new Date().getMonth() - 1] * 100);
-  DeathIncStr = String(this.DeathInc) + ' %';
+  DeathInc = 0;
+  DeathIncStr = 0 + ' %';
 
   posts: any;
 
@@ -121,6 +121,13 @@ export class DashboardComponent implements OnInit {
       this.RecoveredStr = numberWithCommas(this.RecoveredNb)
     });
 
+    this.myService.getAllCountries().subscribe(data3 => {
+
+      console.log(data3['Countries']);
+      
+    });
+
+
     this.myService.get12LastMonths().subscribe(data2 => {
 
       let today = new Date();
@@ -144,8 +151,8 @@ export class DashboardComponent implements OnInit {
 
 
       for (let index = 0; index < Object.keys(data2).length; index++) {
-        yearR[Math.floor(index / 30)] += data2[index]["NewRecovered"];// / 1000000;
-        yearD[Math.floor(index / 30)] += data2[index]["NewDeaths"];// / 1000000;
+        yearR[Math.floor(index / 30)] += data2[index]["NewRecovered"] / 1000000;
+        yearD[Math.floor(index / 30)] += data2[index]["NewDeaths"] / 1000000;
       }
 
 
@@ -153,9 +160,15 @@ export class DashboardComponent implements OnInit {
       this.yearRecovered = yearR.reverse();
       this.yearDeaths = yearD.reverse();
       this.disp_months = disp_months;
-      console.log(this.yearRecovered);
-      console.log(this.yearDeaths);
-      console.log(disp_months);
+
+      this.RecoveredInc = Math.round((this.yearRecovered[new Date().getMonth()] - this.yearRecovered[new Date().getMonth() - 1]) / this.yearRecovered[new Date().getMonth() - 1] * 100);
+      this.DeathInc = Math.round((this.yearDeaths[new Date().getMonth()] - this.yearDeaths[new Date().getMonth() - 1]) / this.yearDeaths[new Date().getMonth() - 1] * 100);
+    
+      this.RecoveredIncStr = String(this.RecoveredInc) + '%';
+      this.DeathIncStr = String(this.DeathInc) + '%';
+
+
+
 
       /* ----------==========     Recovered Chart initialization For Documentation    ==========---------- */
       const dataDailySalesChart: any = {
@@ -201,7 +214,7 @@ export class DashboardComponent implements OnInit {
       // start animation for the Completed Tasks Chart - Line Chart
       this.startAnimationForLineChart(completedTasksChart);
 
-      /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
+      /* ----------==========     Ratio Chart initialization    ==========---------- */
 
       let datawebsiteViewsChart = {
         labels: ['Healed', 'Ongoing', 'Deaths'],
@@ -242,11 +255,6 @@ export class DashboardComponent implements OnInit {
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
       return parts.join(".");
     }
-
-
-
-
-
 
   }
 
