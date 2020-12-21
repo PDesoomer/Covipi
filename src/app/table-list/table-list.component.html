@@ -1,5 +1,6 @@
 <div class="main-content">
   <div class="container-fluid">
+
       <div class="row">
           <div class="col-md-12">
               <div class="card">
@@ -11,39 +12,33 @@
                       <div class="table-responsive">
                           <table class="table">
                               <thead class=" text-primary">
-                                  <th [class.active]="order === 'id'"
-                                      (click)="setOrder('id')">
-                                      ID <span [hidden]="reverse">▼</span
-                                  ><span [hidden]="!reverse">▲</span>
-                                  </th>
                                   <th [class.active]="order === 'name'"
                                       (click)="setOrder('name')">
-                                      Name <span [hidden]="reverse">▼</span
-                                  ><span [hidden]="!reverse">▲</span>
+                                      Name <span [hidden]="reverse">▲</span
+                                  ><span [hidden]="!reverse">▼</span>
                                   </th>
                                   <th [class.active]="order === 'sick'"
                                       (click)="setOrder('sick')">
-                                      Sick <span [hidden]="reverse">▼</span
-                                  ><span [hidden]="!reverse">▲</span>
+                                      Sick <span [hidden]="reverse">▲</span
+                                  ><span [hidden]="!reverse">▼</span>
                                   </th>
                                   <th [class.active]="order === 'healed'"
                                       (click)="setOrder('healed')">
-                                      Healed <span [hidden]="reverse">▼</span
-                                  ><span [hidden]="!reverse">▲</span>
+                                      Healed <span [hidden]="reverse">▲</span
+                                  ><span [hidden]="!reverse">▼</span>
                                   </th>
                                   <th [class.active]="order === 'dead'"
                                       (click)="setOrder('dead')">
-                                      Dead <span [hidden]="reverse">▼</span
-                                  ><span [hidden]="!reverse">▲</span>
+                                      Dead <span [hidden]="reverse">▲</span
+                                  ><span [hidden]="!reverse">▼</span>
                                   </th>
                               </thead>
                               <tbody>
                               <tr *ngFor="let country of countries |  orderBy: order:reverse">
-                                  <td >{{country.id}}</td>
                                   <td>{{country.name}}</td>
-                                  <td>{{country.sick}}</td>
-                                  <td>{{country.healed}}</td>
-                                  <td>{{country.dead}}</td>
+                                  <td>{{numberWithCommas(country.sick)}}</td>
+                                  <td>{{numberWithCommas(country.healed)}}</td>
+                                  <td>{{numberWithCommas(country.dead)}}</td>
                               </tr>
                               </tbody>
                           </table>

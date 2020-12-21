@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ICountries} from '../Countries';
 import {OrderPipe} from 'ngx-order-pipe';
+import {MyService} from '../services/countries-services.service';
 
 @Component({
   selector: 'app-table-list',
@@ -10,17 +11,13 @@ import {OrderPipe} from 'ngx-order-pipe';
 export class TableListComponent implements OnInit {
 
   order = 'sick';
-  reverse = false;
+  reverse = true;
 
-  countries: Array<ICountries> = [
-    {id: 1, name: 'France', sick: 200, healed: 123, dead: 125},
-    {id: 2, name: 'Espagne', sick: 324, healed: 324, dead: 7654},
-    {id: 3, name: 'Chili', sick: 432, healed: 2345, dead: 132},
-    {id: 4, name: 'Guatemala', sick: 552, healed: 232, dead: 4524},
-  ];
+
+  countries: Array<ICountries> = [];
 
   private sortedCountries: Array<ICountries> [];
-  constructor(private orderPipe: OrderPipe) {
+  constructor(private orderPipe: OrderPipe, private myService: MyService) {
     this.sortedCountries = orderPipe.transform(this.countries, 'sick')
     console.log(this.sortedCountries);
   }
@@ -33,7 +30,21 @@ export class TableListComponent implements OnInit {
     this.order = value;
   }
 
+  numberWithCommas(x) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
+  }
   ngOnInit() {
+    this.myService.getAllCountries().subscribe(data3 => {
+      console.log(data3);
+      for (let index = 0; index < Object.keys(data3['Countries']).length; index++) {
+        this.countries.push(new ICountries(data3['Countries'][index]['Country'],
+            data3['Countries'][index]['TotalConfirmed'],
+            data3['Countries'][index]['TotalRecovered'],
+            data3['Countries'][index]['TotalDeaths'] ))
+      }
+    });
   }
 
 }

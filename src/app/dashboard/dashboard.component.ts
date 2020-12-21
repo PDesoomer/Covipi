@@ -42,12 +42,7 @@ export class DashboardComponent implements OnInit {
   disp_months = ['Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan', 'Jan'];
 
 
-  countries: Array<ICountries> = [
-    { id: 1, name: 'France', sick: 200, healed: 200, dead: 200},
-    { id: 2, name: 'Espagne', sick: 200, healed: 200, dead: 200},
-    { id: 3, name: 'Chili', sick: 200, healed: 200, dead: 200},
-    { id: 4, name: 'Guatemala', sick: 200, healed: 200, dead: 200}
-  ];
+  countries: Array<ICountries> = [];
 
 
   constructor(private myService: MyService, public snackBar: MatSnackBar) {}
@@ -124,6 +119,19 @@ export class DashboardComponent implements OnInit {
     this.myService.getAllCountries().subscribe(data3 => {
 
       console.log(data3['Countries']);
+      for (let index = 0; index < Object.keys(data3['Countries']).length; index++) {
+        this.countries.push(new ICountries(data3['Countries'][index]['Country'],
+            data3['Countries'][index]['TotalConfirmed'],
+            data3['Countries'][index]['TotalRecovered'],
+            data3['Countries'][index]['TotalDeaths'] ))
+      }
+      this.countries.sort(function(a, b) {
+         if (a.sick < b.sick) {
+           return 1;
+         } else {
+           return 0;
+         }
+      })
 
     });
 
@@ -262,4 +270,10 @@ export class DashboardComponent implements OnInit {
             duration: 5000
         });
     }
+
+  numberWithCommas(x: number) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
+  }
 }

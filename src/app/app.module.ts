@@ -18,7 +18,6 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { OrderByPipe } from './order-by.pipe';
 import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
@@ -39,7 +38,6 @@ import { OrderModule } from 'ngx-order-pipe';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    OrderByPipe,
 
   ],
   providers: [],
