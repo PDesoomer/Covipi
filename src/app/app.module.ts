@@ -18,6 +18,8 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { OrderByPipe } from './order-by.pipe';
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   imports: [
@@ -29,6 +31,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSnackBarModule,
     RouterModule,
     AppRoutingModule,
+    OrderModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBKbbUnN1dQNaHNTyQhnyt7sqTJDVQaxBA'
     })
@@ -36,6 +39,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    OrderByPipe,
 
   ],
   providers: [],

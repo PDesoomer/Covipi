@@ -29,10 +29,10 @@ export class DashboardComponent implements OnInit {
 
 
     countries: Array<ICountries> = [
-        {id: 1, name: 'France', sick: 200},
-        {id: 2, name: 'Espagne', sick: 200},
-        {id: 3, name: 'Chili', sick: 200},
-        {id: 4, name: 'Guatemala', sick: 200},
+        {id: 1, name: 'France', sick: 200, healed: 200, dead: 200},
+        {id: 2, name: 'Espagne', sick: 200, healed: 200, dead: 200},
+        {id: 3, name: 'Chili', sick: 200, healed: 200, dead: 200},
+        {id: 4, name: 'Guatemala', sick: 200, healed: 200, dead: 200},
     ];
 
 
