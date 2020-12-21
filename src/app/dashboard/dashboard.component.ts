@@ -51,6 +51,7 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(private myService: MyService) { }
+
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
     seq = 0;
@@ -148,8 +149,6 @@ export class DashboardComponent implements OnInit {
       }
 
 
-
-
       //let year = [data[0]["NewRecovered"], data[1]["NewRecovered"], data[2]["NewRecovered"], data[3]["NewRecovered"], data[4]["NewRecovered"], data[5]["NewRecovered"], data[6]["NewRecovered"], data[7]["NewRecovered"], data[8]["NewRecovered"], data[9]["NewRecovered"], data[10]["NewRecovered"], data[11]["NewRecovered"]]
       this.yearRecovered = yearR.reverse();
       this.yearDeaths = yearD.reverse();
@@ -157,6 +156,83 @@ export class DashboardComponent implements OnInit {
       console.log(this.yearRecovered);
       console.log(this.yearDeaths);
       console.log(disp_months);
+
+      /* ----------==========     Recovered Chart initialization For Documentation    ==========---------- */
+      const dataDailySalesChart: any = {
+        labels: this.disp_months,
+        series: [
+          this.yearRecovered
+        ]
+      };
+
+      const optionsDailySalesChart: any = {
+        lineSmooth: Chartist.Interpolation.cardinal({
+          tension: 0
+        }),
+        low: 0,
+        high: Math.max.apply(null, this.yearRecovered) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
+      }
+
+      let dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+
+      this.startAnimationForLineChart(dailySalesChart);
+
+      /* ----------==========     Deaths Chart initialization    ==========---------- */
+
+      const dataCompletedTasksChart: any = {
+        labels: this.disp_months,
+        series: [
+          this.yearDeaths
+        ]
+      };
+
+      const optionsCompletedTasksChart: any = {
+        lineSmooth: Chartist.Interpolation.cardinal({
+          tension: 0
+        }),
+        low: 0,
+        high: Math.max.apply(null, this.yearDeaths) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
+      }
+
+      let completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
+
+      // start animation for the Completed Tasks Chart - Line Chart
+      this.startAnimationForLineChart(completedTasksChart);
+
+      /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
+
+      let datawebsiteViewsChart = {
+        labels: ['Healed', 'Ongoing', 'Deaths'],
+        series: [
+          [this.RecoveredNb / this.ConfirmedNb * 100, (this.ConfirmedNb - (this.RecoveredNb + this.DeathNb)) / this.ConfirmedNb * 100, this.DeathNb / this.ConfirmedNb * 100]
+
+        ]
+      };
+      let optionswebsiteViewsChart = {
+        axisX: {
+          showGrid: false
+        },
+        low: 0,
+        high: 101,
+        chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
+      };
+      let responsiveOptions: any[] = [
+        ['screen and (max-width: 640px)', {
+          seriesBarDistance: 10,
+          axisX: {
+            labelInterpolationFnc: function (value) {
+              return value[0];
+            }
+          }
+        }]
+      ];
+      let websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+
+      // start animation for the Emails Subscription Chart
+      this.startAnimationForBarChart(websiteViewsChart);
+
 
     });
 
@@ -168,84 +244,10 @@ export class DashboardComponent implements OnInit {
     }
 
 
-    /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
-    const dataDailySalesChart: any = {
-      labels: this.disp_months,
-      series: [
-        this.yearRecovered
-      ]
-    };
-
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: Math.max.apply(null, this.yearRecovered) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-    }
-
-    let dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-    this.startAnimationForLineChart(dailySalesChart);
-
-
-    /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-    const dataCompletedTasksChart: any = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        this.yearDeaths
-      ]
-    };
-
-    const optionsCompletedTasksChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: Math.max.apply(null, this.yearDeaths) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
-    }
-
-    let completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
 
 
 
-    /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
-    let datawebsiteViewsChart = {
-      labels: ['Healed', 'Ongoing', 'Deaths'],
-      series: [
-        [this.RecoveredNb / this.ConfirmedNb * 100, (this.ConfirmedNb - (this.RecoveredNb + this.DeathNb)) / this.ConfirmedNb * 100, this.DeathNb / this.ConfirmedNb * 100]
-
-      ]
-    };
-    let optionswebsiteViewsChart = {
-      axisX: {
-        showGrid: false
-      },
-      low: 0,
-      high: 101,
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
-    };
-    let responsiveOptions: any[] = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 10,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-    let websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-    // start animation for the Emails Subscription Chart
-    this.startAnimationForBarChart(websiteViewsChart);
   }
 
 }
