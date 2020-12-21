@@ -3,14 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="598b9717-935e-488d-8676-f8102cef83d6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/Countries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Countries.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/footer/footer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/footer/footer.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/order-by.pipe.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/order-by.pipe.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/table-list/table-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/table-list/table-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/table-list/table-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/table-list/table-list.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

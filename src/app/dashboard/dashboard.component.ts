@@ -212,7 +212,7 @@ export class DashboardComponent implements OnInit {
         }),
         low: 0,
         // tslint:disable-next-line:max-line-length
-        high: Math.max.apply(null, this.yearDeaths) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        high: Math.max.apply(null, this.yearDeaths) + 0.2, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
       }
 
