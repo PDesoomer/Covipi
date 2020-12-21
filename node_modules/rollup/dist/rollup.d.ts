@@ -85,25 +85,31 @@ export interface SourceMap {
 
 export type SourceMapInput = ExistingRawSourceMap | string | null | { mappings: '' };
 
-export interface SourceDescription {
+type PartialNull<T> = {
+	[P in keyof T]: T[P] | null;
+};
+
+interface ModuleOptions {
+	meta: CustomPluginOptions;
+	moduleSideEffects: boolean | 'no-treeshake';
+	syntheticNamedExports: boolean | string;
+}
+
+export interface SourceDescription extends Partial<PartialNull<ModuleOptions>> {
 	ast?: AcornNode;
 	code: string;
 	map?: SourceMapInput;
-	moduleSideEffects?: boolean | 'no-treeshake' | null;
-	syntheticNamedExports?: boolean | string;
 }
 
-export interface TransformModuleJSON {
+export interface TransformModuleJSON extends Partial<PartialNull<ModuleOptions>> {
 	ast?: AcornNode;
 	code: string;
 	// note if plugins use new this.cache to opt-out auto transform cache
 	customTransformCache: boolean;
-	moduleSideEffects: boolean | 'no-treeshake' | null;
 	originalCode: string;
 	originalSourcemap: ExistingDecodedSourceMap | null;
 	resolvedIds?: ResolvedIdMap;
 	sourcemapChain: DecodedSourceMapOrMissing[];
-	syntheticNamedExports: boolean | string | null;
 	transformDependencies: string[];
 }
 
@@ -152,19 +158,26 @@ export type EmitChunk = (id: string, options?: { name?: string }) => string;
 export type EmitFile = (emittedFile: EmittedFile) => string;
 
 interface ModuleInfo {
-	dynamicallyImportedIds: string[];
-	dynamicImporters: string[];
+	ast: AcornNode | null;
+	code: string | null;
+	dynamicallyImportedIds: readonly string[];
+	dynamicImporters: readonly string[];
 	hasModuleSideEffects: boolean | 'no-treeshake';
 	id: string;
-	implicitlyLoadedAfterOneOf: string[];
-	implicitlyLoadedBefore: string[];
-	importedIds: string[];
-	importers: string[];
+	implicitlyLoadedAfterOneOf: readonly string[];
+	implicitlyLoadedBefore: readonly string[];
+	importedIds: readonly string[];
+	importers: readonly string[];
 	isEntry: boolean;
 	isExternal: boolean;
+	meta: CustomPluginOptions;
 }
 
-export type GetModuleInfo = (moduleId: string) => ModuleInfo;
+export type GetModuleInfo = (moduleId: string) => ModuleInfo | null;
+
+export interface CustomPluginOptions {
+	[plugin: string]: any;
+}
 
 export interface PluginContext extends MinimalPluginContext {
 	addWatchFile: (id: string) => void;
@@ -186,11 +199,11 @@ export interface PluginContext extends MinimalPluginContext {
 	isExternal: IsExternal;
 	/** @deprecated Use `this.getModuleIds` instead */
 	moduleIds: IterableIterator<string>;
-	parse: (input: string, options: any) => AcornNode;
+	parse: (input: string, options?: any) => AcornNode;
 	resolve: (
 		source: string,
 		importer?: string,
-		options?: { skipSelf: boolean }
+		options?: { custom?: CustomPluginOptions; skipSelf?: boolean }
 	) => Promise<ResolvedId | null>;
 	/** @deprecated Use `this.resolve` instead */
 	resolveId: (source: string, importer?: string) => Promise<string | null>;
@@ -203,22 +216,18 @@ export interface PluginContextMeta {
 	watchMode: boolean;
 }
 
-export interface ResolvedId {
+export interface ResolvedId extends ModuleOptions {
 	external: boolean;
 	id: string;
-	moduleSideEffects: boolean | 'no-treeshake';
-	syntheticNamedExports: boolean | string;
 }
 
 export interface ResolvedIdMap {
 	[key: string]: ResolvedId;
 }
 
-interface PartialResolvedId {
+interface PartialResolvedId extends Partial<PartialNull<ModuleOptions>> {
 	external?: boolean;
 	id: string;
-	moduleSideEffects?: boolean | 'no-treeshake' | null;
-	syntheticNamedExports?: boolean | string;
 }
 
 export type ResolveIdResult = string | false | null | undefined | PartialResolvedId;
@@ -226,7 +235,8 @@ export type ResolveIdResult = string | false | null | undefined | PartialResolve
 export type ResolveIdHook = (
 	this: PluginContext,
 	source: string,
-	importer: string | undefined
+	importer: string | undefined,
+	options: { custom?: CustomPluginOptions }
 ) => Promise<ResolveIdResult> | ResolveIdResult;
 
 export type IsExternal = (
@@ -247,13 +257,15 @@ export interface TransformPluginContext extends PluginContext {
 	getCombinedSourcemap: () => SourceMap;
 }
 
-export type TransformResult = string | null | undefined | SourceDescription;
+export type TransformResult = string | null | undefined | Partial<SourceDescription>;
 
 export type TransformHook = (
 	this: TransformPluginContext,
 	code: string,
 	id: string
 ) => Promise<TransformResult> | TransformResult;
+
+export type ModuleParsedHook = (this: PluginContext, info: ModuleInfo) => Promise<void> | void;
 
 export type RenderChunkHook = (
 	this: PluginContext,
@@ -334,6 +346,7 @@ export interface PluginHooks extends OutputPluginHooks {
 	buildEnd: (this: PluginContext, err?: Error) => Promise<void> | void;
 	buildStart: (this: PluginContext, options: NormalizedInputOptions) => Promise<void> | void;
 	load: LoadHook;
+	moduleParsed: ModuleParsedHook;
 	options: (this: MinimalPluginContext, options: InputOptions) => InputOptions | null | undefined;
 	resolveDynamicImport: ResolveDynamicImportHook;
 	resolveId: ResolveIdHook;
@@ -382,6 +395,7 @@ export type AsyncPluginHooks =
 	| 'buildStart'
 	| 'generateBundle'
 	| 'load'
+	| 'moduleParsed'
 	| 'renderChunk'
 	| 'renderError'
 	| 'renderStart'
@@ -418,6 +432,7 @@ export type ParallelPluginHooks =
 	| 'buildStart'
 	| 'footer'
 	| 'intro'
+	| 'moduleParsed'
 	| 'outro'
 	| 'renderError'
 	| 'renderStart'
@@ -432,6 +447,8 @@ interface OutputPluginValueHooks {
 }
 
 export interface Plugin extends Partial<PluginHooks>, Partial<OutputPluginValueHooks> {
+	// for inter-plugin communication
+	api?: any;
 	name: string;
 }
 
@@ -477,7 +494,7 @@ export type GlobalsOption = { [name: string]: string } | ((name: string) => stri
 export type InputOption = string | string[] | { [entryAlias: string]: string };
 export type ManualChunksOption = { [chunkAlias: string]: string[] } | GetManualChunk;
 export type ModuleSideEffectsOption = boolean | 'no-external' | string[] | HasModuleSideEffects;
-export type PreserveEntrySignaturesOption = false | 'strict' | 'allow-extension';
+export type PreserveEntrySignaturesOption = false | 'strict' | 'allow-extension' | 'exports-only';
 export type SourcemapPathTransformOption = (
 	relativeSourcePath: string,
 	sourcemapPath: string
@@ -583,6 +600,7 @@ export interface OutputOptions {
 	plugins?: OutputPlugin[];
 	preferConst?: boolean;
 	preserveModules?: boolean;
+	preserveModulesRoot?: string;
 	sourcemap?: boolean | 'inline' | 'hidden';
 	sourcemapExcludeSources?: boolean;
 	sourcemapFile?: string;
@@ -628,6 +646,7 @@ export interface NormalizedOutputOptions {
 	plugins: OutputPlugin[];
 	preferConst: boolean;
 	preserveModules: boolean;
+	preserveModulesRoot: string | undefined;
 	sourcemap: boolean | 'inline' | 'hidden';
 	sourcemapExcludeSources: boolean;
 	sourcemapFile: string | undefined;
@@ -754,8 +773,8 @@ export interface WatcherOptions {
 	buildDelay?: number;
 	chokidar?: ChokidarOptions;
 	clearScreen?: boolean;
-	exclude?: string[];
-	include?: string[];
+	exclude?: string | RegExp | (string | RegExp)[];
+	include?: string | RegExp | (string | RegExp)[];
 	skipWrite?: boolean;
 }
 

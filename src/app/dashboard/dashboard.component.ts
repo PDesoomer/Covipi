@@ -3,8 +3,7 @@ import * as Chartist from 'chartist';
 import { ICountries } from '../Countries'
 import { HttpClient } from '@angular/common/http';
 import { MyService } from '../services/countries-services.service';
-import { config } from 'process';
-
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,22 +13,23 @@ import { config } from 'process';
 export class DashboardComponent implements OnInit {
   ConfirmedTitle = 'Confirmed Case';
   ConfirmedNb = -1;
-  ConfirmedStr = String(this.ConfirmedNb)
+  ConfirmedStr = String(this.ConfirmedNb);
 
   dataReceivedFromHttp: any;
+  selectedCountry: ICountries;
 
   DeathTitle = 'Deaths';
   DeathNb = -1;
-  DeathStr = String(this.DeathNb)
+  DeathStr = String(this.DeathNb);
 
 
   RecoveredTitle = 'Recovered';
   RecoveredNb = -1;
-  RecoveredStr = String(this.RecoveredNb)
+  RecoveredStr = String(this.RecoveredNb);
 
+  yearRecovered = [1, 20, 300, 400, 500, 600, 7000, 8000, 9000, 10000, 11500, 16000];
+  yearDeaths = [1, 2, 30, 47, 58, 60, 75, 79, 80, 90, 169, 200];
 
-  yearRecovered = [1, 20, 300, 400, 500, 600, 7000, 8000, 9000, 10000, 11500, 16000]
-  yearDeaths = [1, 2, 30, 47, 58, 60, 75, 79, 80, 90, 169, 200]
 
   RecoveredInc = 0;
   RecoveredIncStr = 0 + '%';
@@ -43,14 +43,14 @@ export class DashboardComponent implements OnInit {
 
 
   countries: Array<ICountries> = [
-    { id: 1, name: 'France', sick: 200 },
-    { id: 2, name: 'Espagne', sick: 200 },
-    { id: 3, name: 'Chili', sick: 200 },
-    { id: 4, name: 'Guatemala', sick: 200 },
+    { id: 1, name: 'France', sick: 200, healed: 200, dead: 200},
+    { id: 2, name: 'Espagne', sick: 200, healed: 200, dead: 200},
+    { id: 3, name: 'Chili', sick: 200, healed: 200, dead: 200},
+    { id: 4, name: 'Guatemala', sick: 200, healed: 200, dead: 200}
   ];
 
 
-  constructor(private myService: MyService) { }
+  constructor(private myService: MyService, public snackBar: MatSnackBar) {}
 
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
@@ -113,31 +113,31 @@ export class DashboardComponent implements OnInit {
     this.myService.getGlobalInfo().subscribe(data => {
       this.dataReceivedFromHttp = data;
 
-      this.ConfirmedNb = data["TotalConfirmed"];
+      this.ConfirmedNb = data['TotalConfirmed'];
       this.ConfirmedStr = numberWithCommas(this.ConfirmedNb)
-      this.DeathNb = data["TotalDeaths"];
+      this.DeathNb = data['TotalDeaths'];
       this.DeathStr = numberWithCommas(this.DeathNb)
-      this.RecoveredNb = data["TotalRecovered"];
+      this.RecoveredNb = data['TotalRecovered'];
       this.RecoveredStr = numberWithCommas(this.RecoveredNb)
     });
 
     this.myService.getAllCountries().subscribe(data3 => {
 
       console.log(data3['Countries']);
-      
+
     });
 
 
     this.myService.get12LastMonths().subscribe(data2 => {
 
-      let today = new Date();
+      const today = new Date();
       let month: any = today.getMonth() + 1;
 
-      let classicYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      let disp_months = []
+      const classicYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const disp_months = []
 
       for (let index = 0; index < 12; index++) {
-        //to go leap to prev year
+        // to go leap to prev year
         if (month > 11) {
           month = 0;
         }
@@ -146,28 +146,25 @@ export class DashboardComponent implements OnInit {
       }
 
 
-      let yearR = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      let yearD = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      const yearR = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      const yearD = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
       for (let index = 0; index < Object.keys(data2).length; index++) {
-        yearR[Math.floor(index / 30)] += data2[index]["NewRecovered"] / 1000000;
-        yearD[Math.floor(index / 30)] += data2[index]["NewDeaths"] / 1000000;
+        yearR[Math.floor(index / 30)] += data2[index]['NewRecovered'] / 1000000;
+        yearD[Math.floor(index / 30)] += data2[index]['NewDeaths'] / 1000000;
       }
 
 
-      //let year = [data[0]["NewRecovered"], data[1]["NewRecovered"], data[2]["NewRecovered"], data[3]["NewRecovered"], data[4]["NewRecovered"], data[5]["NewRecovered"], data[6]["NewRecovered"], data[7]["NewRecovered"], data[8]["NewRecovered"], data[9]["NewRecovered"], data[10]["NewRecovered"], data[11]["NewRecovered"]]
       this.yearRecovered = yearR.reverse();
       this.yearDeaths = yearD.reverse();
       this.disp_months = disp_months;
 
       this.RecoveredInc = Math.round((this.yearRecovered[new Date().getMonth()] - this.yearRecovered[new Date().getMonth() - 1]) / this.yearRecovered[new Date().getMonth() - 1] * 100);
       this.DeathInc = Math.round((this.yearDeaths[new Date().getMonth()] - this.yearDeaths[new Date().getMonth() - 1]) / this.yearDeaths[new Date().getMonth() - 1] * 100);
-    
+
       this.RecoveredIncStr = String(this.RecoveredInc) + '%';
       this.DeathIncStr = String(this.DeathInc) + '%';
-
-
 
 
       /* ----------==========     Recovered Chart initialization For Documentation    ==========---------- */
@@ -183,11 +180,12 @@ export class DashboardComponent implements OnInit {
           tension: 0
         }),
         low: 0,
+        // tslint:disable-next-line:max-line-length
         high: Math.max.apply(null, this.yearRecovered) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
       }
 
-      let dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+      const dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
 
       this.startAnimationForLineChart(dailySalesChart);
 
@@ -205,25 +203,27 @@ export class DashboardComponent implements OnInit {
           tension: 0
         }),
         low: 0,
+        // tslint:disable-next-line:max-line-length
         high: Math.max.apply(null, this.yearDeaths) + 1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
       }
 
-      let completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
+      const completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
 
       // start animation for the Completed Tasks Chart - Line Chart
       this.startAnimationForLineChart(completedTasksChart);
 
       /* ----------==========     Ratio Chart initialization    ==========---------- */
 
-      let datawebsiteViewsChart = {
+      const datawebsiteViewsChart = {
         labels: ['Healed', 'Ongoing', 'Deaths'],
         series: [
-          [this.RecoveredNb / this.ConfirmedNb * 100, (this.ConfirmedNb - (this.RecoveredNb + this.DeathNb)) / this.ConfirmedNb * 100, this.DeathNb / this.ConfirmedNb * 100]
-
+          [this.RecoveredNb / this.ConfirmedNb * 100,
+            (this.ConfirmedNb - (this.RecoveredNb + this.DeathNb)) / this.ConfirmedNb * 100,
+            this.DeathNb / this.ConfirmedNb * 100]
         ]
       };
-      let optionswebsiteViewsChart = {
+      const optionswebsiteViewsChart = {
         axisX: {
           showGrid: false
         },
@@ -231,7 +231,7 @@ export class DashboardComponent implements OnInit {
         high: 101,
         chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
       };
-      let responsiveOptions: any[] = [
+      const responsiveOptions: any[] = [
         ['screen and (max-width: 640px)', {
           seriesBarDistance: 10,
           axisX: {
@@ -241,21 +241,25 @@ export class DashboardComponent implements OnInit {
           }
         }]
       ];
-      let websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+      const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
 
       // start animation for the Emails Subscription Chart
       this.startAnimationForBarChart(websiteViewsChart);
-
-
     });
 
 
     function numberWithCommas(x) {
-      var parts = x.toString().split(".");
-      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-      return parts.join(".");
+      const parts = x.toString().split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      return parts.join('.');
     }
 
   }
 
+    selectCountry(country: ICountries) {
+        this.selectedCountry = country;
+        this.snackBar.open(this.selectedCountry.name + ' | Cases confirmed : ' + this.selectedCountry.sick , 'Close', {
+            duration: 5000
+        });
+    }
 }

@@ -27,6 +27,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-danger card-header-icon">
@@ -332,25 +333,28 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-warning">
+                    <div class="card-header-info card-header">
                         <h4 class="card-title">Countries</h4>
                         <p class="card-category">Countries with most cases</p>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-hover">
                             <thead class="text-warning">
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Cases</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Cases</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let country of countries | slice:0:5">
-                                    <td>{{country.id}}</td>
-                                    <td>{{country.name}}</td>
-                                    <td>{{country.sick}}</td>
-                                </tr>
+
+                            <tr (click)="selectCountry(country)"
+                                [class.selected]="selectedCountry === country"
+                                *ngFor="let country of countries | slice:0:5">
+                                <td >{{country.id}}</td>
+                                <td>{{country.name}}</td>
+                                <td>{{country.sick}}</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -359,3 +363,4 @@
         </div>
     </div>
 </div>
+
