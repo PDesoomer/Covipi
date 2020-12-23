@@ -4,6 +4,7 @@
 
 # Covipi
 An elegant web interface to follow the cases of ```COVID-19``` worldwide.
+<br>
 [DESOOMER](https://github.com/PDesoomer) & [BERNARD](https://github.com/GBernard314) ® .
 
   <img alt="Angular" src="https://img.shields.io/badge/-Angular-DD0031?logo=angular&logoColor=white"/> <img alt="npm" src="https://img.shields.io/badge/-NPM-CB3837?logo=npm&logoColor=white"/> <img alt="Material Design" src="https://img.shields.io/badge/-Material_Design-757575?logo=material-design&logoColor=white"/> <img alt="Git" src="https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white"/> <img alt="Github" src="https://img.shields.io/badge/-Github-181717?logo=github&logoColor=white"/> 
