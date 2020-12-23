@@ -24,11 +24,8 @@ Our target was the tracking of worldwide cases of ```covid19``` by using charts 
 Recently the API behaved strangely, we recommend using ```Chrome``` or to wait few seconds and refreshing the web page (especially on the table page).
 
 ## Dependencies
- - Angular CLI
-    ```
-    npm install
-    ``` 
-- [NodeJs](https://nodejs.org/en).
+ - [Angular CLI](https://cli.angular.io/)
+ - [NodeJs](https://nodejs.org/en)
 
 ## How to use it
 First you need to download the project :
@@ -39,6 +36,11 @@ git clone https://github.com/PDesoomer/Covipi
 Then you go into the directoy :
 ```
 cd Covipi
+```
+
+You build the project :
+```
+npm install
 ```
 
 After that you launch the ```angular server```:
