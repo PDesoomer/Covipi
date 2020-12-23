@@ -10,10 +10,12 @@ An elegant web interface to follow the cases of ```COVID-19``` worldwide.
   <img alt="Angular" src="https://img.shields.io/badge/-Angular-DD0031?logo=angular&logoColor=white"/> <img alt="npm" src="https://img.shields.io/badge/-NPM-CB3837?logo=npm&logoColor=white"/> <img alt="Material Design" src="https://img.shields.io/badge/-Material_Design-757575?logo=material-design&logoColor=white"/> <img alt="Git" src="https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white"/> <img alt="Github" src="https://img.shields.io/badge/-Github-181717?logo=github&logoColor=white"/> 
 
 ## Description
-The goal of this project is to showcase what we learned during the Angular courses we had.
+The goal of this project is to showcase what we learned during the Angular courses we had.<br>
 The requirements were : 
 1. Use an API (We picked [Covid19](https://covid19api.com))
 2. Have a beautiful UI (We used [Material](https://material.angular.io))
+
+Our target was the tracking of worldwide cases of ```covid19``` by using charts, easy to understand design.
 
 ## Dependencies
  - Angular CLI
