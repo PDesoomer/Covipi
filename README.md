@@ -11,7 +11,7 @@ An elegant web interface to follow the cases of ```COVID-19``` worldwide.
 
 ## Description
 The goal of this project is to showcase what we learned during the Angular courses we had.
-The requierements were : 
+The requirements were : 
 1. Use an API (We picked [Covid19](https://covid19api.com))
 2. Have a beautiful UI (We used [Material](https://material.angular.io))
 
