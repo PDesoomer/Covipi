@@ -168,7 +168,9 @@ export class DashboardComponent implements OnInit {
       this.yearDeaths = yearD.reverse();
       this.disp_months = disp_months;
 
+      // tslint:disable-next-line:max-line-length
       this.RecoveredInc = Math.round((this.yearRecovered[new Date().getMonth()] - this.yearRecovered[new Date().getMonth() - 1]) / this.yearRecovered[new Date().getMonth() - 1] * 100);
+      // tslint:disable-next-line:max-line-length
       this.DeathInc = Math.round((this.yearDeaths[new Date().getMonth()] - this.yearDeaths[new Date().getMonth() - 1]) / this.yearDeaths[new Date().getMonth() - 1] * 100);
 
       this.RecoveredIncStr = String(this.RecoveredInc) + '%';
@@ -266,8 +268,10 @@ export class DashboardComponent implements OnInit {
 
     selectCountry(country: ICountries) {
         this.selectedCountry = country;
-        this.snackBar.open(this.selectedCountry.name + ' | Cases confirmed : ' + this.selectedCountry.sick , 'Close', {
-            duration: 5000
+        this.snackBar.open(this.selectedCountry.name
+            + ' | Dead : ' + this.numberWithCommas(this.selectedCountry.dead)
+            + ' | Healed : ' + this.numberWithCommas(this.selectedCountry.healed) ,
+            'Close', { duration: 5000
         });
     }
 

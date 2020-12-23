@@ -22,16 +22,14 @@ export class MyService {
     }
 
     get12LastMonths() {
-        let today = new Date();
-        let year:any = today.getFullYear();
-        let day:any = today.getDate();
-        let month:any = today.getMonth()+1;
+        const today = new Date();
+        const year: number = today.getFullYear();
+        const day: number = today.getDate();
+        const month: number = today.getMonth() + 1;
 
-        let last:String = year-1 + '-' + month + '-' + day;
-        let now:String = year + '-' + month + '-' + day;        
+        const last: String = year - 1 + '-' + month + '-' + day;
+        const now: String = year + '-' + month + '-' + day;
 
-        
-        //return this.http.get('https://api.covid19api.com/live/country/south-africa/status/confirmed/date/2020-03-21T13:13:30Z');
         return this.http.get('https://api.covid19api.com/world?from=' + last + 'T00:00:00Z&to=' + now + 'T00:00:00Z');
     }
 
